@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-spring-app
+  labels:
+    app: sample-spring-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-spring-app
+  template:
+    metadata:
+      labels:
+        app: sample-spring-app
+    spec:
+      containers:
+        - name: sample-spring-app
+          image: springk8s:v2
+          volumeMounts: 
+            - name: db-connection
+              mountPath: /opt            
+          ports:
+        - containerPort: 8100
+      volumes: 
+        - name: db-connection
+          configMap:
+            name: k8s-cm
